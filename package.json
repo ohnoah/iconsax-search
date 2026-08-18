@@ -4,6 +4,14 @@
   "private": true,
   "type": "module",
   "description": "A fast, version-aware explorer for Iconsax React icons.",
+  "homepage": "https://iconsax-search.xqf5cypcyy.workers.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ohnoah/iconsax-search.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ohnoah/iconsax-search/issues"
+  },
   "license": "MIT",
   "scripts": {
     "dev": "vite",

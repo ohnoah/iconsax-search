@@ -2,6 +2,8 @@
 
 The site is a static single-page application served by Cloudflare Workers Static Assets. It has no Worker script, database, AI model, or per-search service call.
 
+Production: <https://iconsax-search.xqf5cypcyy.workers.dev>
+
 ## Local release
 
 Use the Node.js version in `.nvmrc`, install the locked dependencies, and authenticate Wrangler once:

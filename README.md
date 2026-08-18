@@ -8,6 +8,8 @@ An unofficial, fast explorer for the exact version of
 [`iconsax-react`](https://www.npmjs.com/package/iconsax-react) installed in this
 repository.
 
+**[Open the live explorer](https://iconsax-search.xqf5cypcyy.workers.dev)**
+
 Search happens entirely in the browser. There is no model download, vector
 database, backend, tracking request, or per-query cost.
 
