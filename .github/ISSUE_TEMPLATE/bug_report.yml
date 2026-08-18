@@ -1,0 +1,45 @@
+name: Bug report
+description: Report a reproducible problem with the explorer or search results.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not report security vulnerabilities here. Follow `SECURITY.md` instead.
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: Include the browser name and version.
+      placeholder: Firefox 145 on macOS 15
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: URL or search
+      description: Share the URL or exact query that reproduces the problem.
+      placeholder: https://example.workers.dev/?q=settings
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead? Add screenshots when useful.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Provide the smallest reliable sequence that reproduces it.
+    validations:
+      required: true
