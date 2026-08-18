@@ -46,8 +46,8 @@ export function IconGrid({
             <Box
                 sx={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 11.5rem), 1fr))",
-                    gap: { xs: 1.25, sm: 1.75 },
+                    gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 7.75rem), 1fr))",
+                    gap: 1,
                 }}
             >
                 {results.map((result) => (

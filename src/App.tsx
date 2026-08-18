@@ -2,7 +2,6 @@ import * as React from "react";
 import {
     Box,
     Button,
-    Chip,
     Container,
     InputAdornment,
     Link,
@@ -10,7 +9,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { Heart, Magicpen, SearchNormal1 } from "iconsax-react";
+import { Heart, SearchNormal1 } from "iconsax-react";
 import {
     ICON_CATALOG_VERSION,
     ICON_CATEGORIES,
@@ -24,7 +23,7 @@ import { searchIcons, type IconSearchResult } from "./search/searchIcons";
 import { previewColors } from "./theme";
 import type { IconVariant } from "./uiTypes";
 
-const PAGE_SIZE = 96;
+const PAGE_SIZE = 192;
 const FAVORITES_STORAGE_KEY = "iconsax-search:favorites";
 
 type InitialState = {
@@ -182,122 +181,112 @@ export function App() {
         });
     };
 
+    const resultLabel = favoritesOnly
+        ? `${filteredResults.length.toLocaleString()} saved`
+        : `${filteredResults.length.toLocaleString()} ${filteredResults.length === 1 ? "icon" : "icons"}`;
+
     return (
         <Box sx={{ minHeight: "100vh" }}>
-            <Box component="header" sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Container maxWidth="xl">
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ minHeight: 68 }}>
-                        <Stack direction="row" alignItems="center" spacing={1.25}>
-                            <Box
-                                sx={{
-                                    width: 38,
-                                    height: 38,
-                                    display: "grid",
-                                    placeItems: "center",
-                                    borderRadius: 2,
-                                    bgcolor: "primary.main",
-                                    color: "primary.contrastText",
-                                }}
-                            >
-                                <Magicpen size={22} variant="Bold" aria-hidden="true" />
-                            </Box>
-                            <Box>
-                                <Typography fontWeight={750} lineHeight={1.1}>
-                                    Icon Index
+            <Box
+                component="header"
+                sx={{
+                    position: { xs: "static", md: "sticky" },
+                    top: 0,
+                    zIndex: 10,
+                    bgcolor: "background.default",
+                    borderBottom: 1,
+                    borderColor: "divider",
+                }}
+            >
+                <Box sx={{ bgcolor: "background.paper", borderBottom: 1, borderColor: "divider" }}>
+                    <Container maxWidth="xl">
+                        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ minHeight: 54 }}>
+                            <Stack direction="row" alignItems="baseline" spacing={1.25} minWidth={0}>
+                                <Typography fontWeight={700} letterSpacing="-0.02em" noWrap>
+                                    iconsax-react
                                 </Typography>
-                                <Typography variant="caption" color="text.secondary">
-                                    for iconsax-react · unofficial explorer
+                                <Typography variant="caption" color="text.secondary" noWrap>
+                                    v{ICON_CATALOG_VERSION} · {iconCatalog.length.toLocaleString()} icons
                                 </Typography>
-                            </Box>
+                            </Stack>
+                            <Stack direction="row" spacing={0.5} alignItems="center">
+                                <Link
+                                    href="https://github.com/ohnoah/iconsax-search"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    underline="hover"
+                                    color="text.secondary"
+                                    sx={{ display: { xs: "none", sm: "inline" }, px: 1, fontSize: "0.82rem" }}
+                                >
+                                    GitHub
+                                </Link>
+                                <Button
+                                    size="small"
+                                    color="inherit"
+                                    variant={favoritesOnly ? "outlined" : "text"}
+                                    onClick={() => setFavoritesOnly(!favoritesOnly)}
+                                    startIcon={<Heart size={16} />}
+                                    aria-pressed={favoritesOnly}
+                                    sx={{ color: favoritesOnly ? "primary.main" : "text.secondary" }}
+                                >
+                                    Saved {favorites.size}
+                                </Button>
+                            </Stack>
                         </Stack>
-                        <Stack direction="row" spacing={1} alignItems="center">
-                            <Chip
-                                size="small"
-                                variant="outlined"
-                                color="primary"
-                                label={`iconsax-react v${ICON_CATALOG_VERSION}`}
-                                sx={{ display: { xs: "none", sm: "flex" } }}
-                            />
-                            <Button
-                                size="small"
-                                variant={favoritesOnly ? "contained" : "text"}
-                                onClick={() => setFavoritesOnly(!favoritesOnly)}
-                                startIcon={<Heart size={17} />}
-                                aria-pressed={favoritesOnly}
-                            >
-                                {favorites.size}
-                                <Box component="span" sx={{ display: { xs: "none", sm: "inline" }, ml: 0.5 }}>
-                                    saved
-                                </Box>
-                            </Button>
-                        </Stack>
-                    </Stack>
-                </Container>
-            </Box>
+                    </Container>
+                </Box>
 
-            <Container component="main" maxWidth="xl">
-                <Stack spacing={{ xs: 4, md: 5 }} sx={{ py: { xs: 5, md: 8 } }}>
-                    <Stack spacing={2.5} alignItems="center" textAlign="center">
-                        <Chip size="small" label={`${iconCatalog.length.toLocaleString()} icons · local fuzzy search`} />
-                        <Typography component="h1" variant="h1" maxWidth={880}>
-                            Search what you mean.
-                            <Box component="span" sx={{ display: "block", color: "primary.main" }}>
-                                Find the right icon.
-                            </Box>
-                        </Typography>
-                        <Typography color="text.secondary" maxWidth={690} sx={{ fontSize: { xs: "1rem", sm: "1.15rem" } }}>
-                            Search names, categories, and useful aliases. Everything runs in your browser against the exact installed Iconsax React catalog.
-                        </Typography>
-                        <TextField
-                            inputRef={searchInputRef}
-                            value={query}
-                            onChange={(event) => setQuery(event.target.value)}
-                            placeholder="Try “delete”, “presentation”, or “settings”…"
-                            aria-label="Search icons"
-                            autoComplete="off"
-                            fullWidth
-                            slotProps={{
-                                input: {
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SearchNormal1 size={25} color="currentColor" aria-hidden="true" />
-                                        </InputAdornment>
-                                    ),
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <Box
-                                                component="kbd"
-                                                sx={{
-                                                    display: { xs: "none", sm: "inline-flex" },
-                                                    minWidth: 28,
-                                                    height: 26,
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    border: 1,
-                                                    borderColor: "divider",
-                                                    borderRadius: 1,
-                                                    color: "text.secondary",
-                                                    fontFamily: "inherit",
-                                                }}
-                                            >
-                                                /
-                                            </Box>
-                                        </InputAdornment>
-                                    ),
-                                },
-                            }}
-                            sx={{
-                                maxWidth: 820,
-                                "& .MuiOutlinedInput-root": {
-                                    minHeight: { xs: 62, sm: 72 },
-                                    borderRadius: 3,
-                                    bgcolor: "background.paper",
-                                    boxShadow: 10,
-                                    fontSize: { xs: "1rem", sm: "1.12rem" },
-                                },
-                            }}
-                        />
-                    </Stack>
+                <Container maxWidth="xl">
+                    <TextField
+                        inputRef={searchInputRef}
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        placeholder={`Search ${iconCatalog.length.toLocaleString()} icons by name or concept…`}
+                        aria-label="Search icons"
+                        autoComplete="off"
+                        fullWidth
+                        size="small"
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchNormal1 size={19} color="currentColor" aria-hidden="true" />
+                                    </InputAdornment>
+                                ),
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <Box
+                                            component="kbd"
+                                            sx={{
+                                                display: { xs: "none", sm: "inline-flex" },
+                                                minWidth: 24,
+                                                height: 22,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                border: 1,
+                                                borderColor: "divider",
+                                                borderRadius: 1,
+                                                color: "text.secondary",
+                                                fontFamily: "inherit",
+                                                fontSize: "0.75rem",
+                                                bgcolor: "background.default",
+                                            }}
+                                        >
+                                            /
+                                        </Box>
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
+                        sx={{
+                            pt: 1.5,
+                            "& .MuiOutlinedInput-root": {
+                                minHeight: 44,
+                                bgcolor: "background.paper",
+                                fontSize: "0.95rem",
+                            },
+                        }}
+                    />
 
                     <PreviewControls
                         category={category}
@@ -309,20 +298,23 @@ export function App() {
                         onSizeChange={setSize}
                         onVariantChange={setVariant}
                     />
+                </Container>
+            </Box>
 
-                    <Stack direction={{ xs: "column", sm: "row" }} alignItems={{ xs: "flex-start", sm: "baseline" }} justifyContent="space-between" gap={1}>
-                        <Box>
-                            <Typography variant="h2">
-                                {favoritesOnly ? "Saved icons" : query.trim() === "" ? "All icons" : `Results for “${query.trim()}”`}
-                            </Typography>
-                            <Typography color="text.secondary" variant="body2">
-                                {filteredResults.length.toLocaleString()} {filteredResults.length === 1 ? "match" : "matches"}
-                                {category === "" ? "" : ` in ${category}`}
-                            </Typography>
-                        </Box>
+            <Container component="main" maxWidth="xl">
+                <Stack spacing={1.5} sx={{ py: 2.5 }}>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" minHeight={24}>
+                        <Typography variant="body2" fontWeight={600}>
+                            {resultLabel}
+                            {category === "" ? "" : ` · ${category}`}
+                        </Typography>
                         {query !== deferredQuery ? (
                             <Typography variant="caption" color="text.secondary">
                                 Searching…
+                            </Typography>
+                        ) : query.trim() !== "" ? (
+                            <Typography variant="caption" color="text.secondary" noWrap>
+                                Results for “{query.trim()}”
                             </Typography>
                         ) : null}
                     </Stack>
@@ -342,17 +334,17 @@ export function App() {
                 </Stack>
             </Container>
 
-            <Box component="footer" sx={{ borderTop: 1, borderColor: "divider", py: 3 }}>
+            <Box component="footer" sx={{ borderTop: 1, borderColor: "divider", py: 2.5, mt: 2 }}>
                 <Container maxWidth="xl">
-                    <Stack direction={{ xs: "column", sm: "row" }} justifyContent="space-between" gap={1.5}>
-                        <Typography variant="body2" color="text.secondary">
-                            Unofficial, open-source explorer. Iconsax is a separate project and trademark of its respective owner.
+                    <Stack direction={{ xs: "column", sm: "row" }} justifyContent="space-between" gap={1}>
+                        <Typography variant="caption" color="text.secondary">
+                            Unofficial browser for iconsax-react. Search runs locally in your browser.
                         </Typography>
                         <Stack direction="row" spacing={2}>
-                            <Link href="https://iconsax.io/" target="_blank" rel="noreferrer" color="text.secondary">
-                                Iconsax
+                            <Link href="https://www.npmjs.com/package/iconsax-react" target="_blank" rel="noreferrer" color="text.secondary" variant="caption">
+                                npm
                             </Link>
-                            <Link href="https://github.com/rendinjast/iconsax-react" target="_blank" rel="noreferrer" color="text.secondary">
+                            <Link href="https://github.com/rendinjast/iconsax-react" target="_blank" rel="noreferrer" color="text.secondary" variant="caption">
                                 Package source
                             </Link>
                         </Stack>

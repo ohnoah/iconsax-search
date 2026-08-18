@@ -2,8 +2,6 @@ import * as React from "react";
 import {
     Box,
     Button,
-    Chip,
-    Divider,
     Drawer,
     IconButton,
     Stack,
@@ -41,7 +39,6 @@ export function IconDetailDrawer({
     onVariantChange,
 }: IconDetailDrawerProps) {
     const entry = result?.entry;
-    const matchedTerms = result?.matchedTerms ?? [];
     const importSnippet = entry == null ? "" : `import { ${entry.name} } from "iconsax-react";`;
     const usageSnippet =
         entry == null ? "" : `<${entry.name} size={${size}} variant="${variant}" color="${color}" />`;
@@ -55,7 +52,7 @@ export function IconDetailDrawer({
             slotProps={{
                 paper: {
                     sx: {
-                        width: { xs: "100%", sm: 540 },
+                        width: { xs: "100%", sm: 500 },
                         maxWidth: "100%",
                         bgcolor: "background.paper",
                         backgroundImage: "none",
@@ -97,15 +94,15 @@ export function IconDetailDrawer({
                         </Stack>
                     </Stack>
 
-                    <Stack spacing={3} sx={{ p: { xs: 2.5, sm: 3 } }}>
+                    <Stack spacing={2.5} sx={{ p: 2.5 }}>
                         <Box
                             sx={{
-                                minHeight: 220,
+                                minHeight: 190,
                                 display: "grid",
                                 placeItems: "center",
                                 border: 1,
                                 borderColor: "divider",
-                                borderRadius: 3,
+                                borderRadius: 2,
                                 bgcolor: "action.hover",
                             }}
                         >
@@ -182,31 +179,6 @@ export function IconDetailDrawer({
                             />
                         </Stack>
 
-                        <Divider />
-
-                        <Stack spacing={1.25}>
-                            <Typography variant="overline" color="text.secondary" fontWeight={700}>
-                                Search context
-                            </Typography>
-                            {matchedTerms.length > 0 ? (
-                                <Stack direction="row" gap={0.75} flexWrap="wrap">
-                                    {matchedTerms.map((term) => (
-                                        <Chip key={term} size="small" label={`Matched: ${term}`} color="primary" variant="outlined" />
-                                    ))}
-                                </Stack>
-                            ) : null}
-                            {entry.aliases.length > 0 ? (
-                                <Stack direction="row" gap={0.75} flexWrap="wrap">
-                                    {entry.aliases.map((alias) => (
-                                        <Chip key={alias} size="small" label={alias} />
-                                    ))}
-                                </Stack>
-                            ) : (
-                                <Typography variant="body2" color="text.secondary">
-                                    Search by the component name or category.
-                                </Typography>
-                            )}
-                        </Stack>
                     </Stack>
                 </Stack>
             )}

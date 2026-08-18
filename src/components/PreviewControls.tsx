@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
     Box,
     Button,
@@ -48,98 +47,90 @@ export function PreviewControls({
     };
 
     return (
-        <Box
-            sx={{
-                display: "grid",
-                gridTemplateColumns: { xs: "1fr", md: "minmax(13rem, 1fr) minmax(20rem, 2fr) minmax(12rem, 0.8fr)" },
-                alignItems: "end",
-                gap: 2,
-                p: { xs: 2, sm: 2.5 },
-                border: 1,
-                borderColor: "divider",
-                borderRadius: 3,
-                bgcolor: "background.paper",
-            }}
+        <Stack
+            direction="row"
+            alignItems="center"
+            useFlexGap
+            flexWrap="wrap"
+            gap={1.5}
+            sx={{ py: 1.5 }}
         >
-            <Stack spacing={0.75}>
-                <Typography variant="caption" color="text.secondary" fontWeight={700}>
-                    Category
-                </Typography>
-                <FormControl size="small" fullWidth>
-                    <Select value={category} onChange={handleCategoryChange} aria-label="Filter by category">
-                        <MenuItem value="">All categories</MenuItem>
-                        {ICON_CATEGORIES.map((option) => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            </Stack>
-
-            <Stack spacing={0.75} sx={{ minWidth: 0 }}>
-                <Typography variant="caption" color="text.secondary" fontWeight={700}>
-                    Style
-                </Typography>
-                <ButtonGroup size="small" aria-label="Icon style" sx={{ overflowX: "auto", alignSelf: "stretch" }}>
-                    {ICON_VARIANTS.map((option) => (
-                        <Button
-                            key={option}
-                            variant={variant === option ? "contained" : "outlined"}
-                            onClick={() => onVariantChange(option)}
-                            sx={{ flex: 1, minWidth: "max-content" }}
-                        >
+            <FormControl size="small" sx={{ width: { xs: "100%", sm: 190 } }}>
+                <Select
+                    value={category}
+                    onChange={handleCategoryChange}
+                    aria-label="Filter by category"
+                    displayEmpty
+                    sx={{ height: 36, bgcolor: "background.paper", fontSize: "0.82rem" }}
+                >
+                    <MenuItem value="">All categories</MenuItem>
+                    {ICON_CATEGORIES.map((option) => (
+                        <MenuItem key={option} value={option}>
                             {option}
-                        </Button>
+                        </MenuItem>
                     ))}
-                </ButtonGroup>
-            </Stack>
+                </Select>
+            </FormControl>
 
-            <Stack spacing={0.25}>
-                <Stack direction="row" justifyContent="space-between">
-                    <Typography variant="caption" color="text.secondary" fontWeight={700}>
-                        Size
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                        {size}px
-                    </Typography>
-                </Stack>
+            <ButtonGroup
+                size="small"
+                aria-label="Icon style"
+                sx={{
+                    maxWidth: "100%",
+                    overflowX: "auto",
+                    bgcolor: "background.paper",
+                    "& .MuiButton-root": { minWidth: "max-content", px: 1.25, height: 36, fontSize: "0.76rem" },
+                }}
+            >
+                {ICON_VARIANTS.map((option) => (
+                    <Button
+                        key={option}
+                        variant={variant === option ? "contained" : "outlined"}
+                        onClick={() => onVariantChange(option)}
+                    >
+                        {option}
+                    </Button>
+                ))}
+            </ButtonGroup>
+
+            <Stack direction="row" alignItems="center" spacing={1} sx={{ width: { xs: 160, sm: 180 }, ml: { md: "auto" } }}>
+                <Typography variant="caption" color="text.secondary" sx={{ minWidth: 32 }}>
+                    {size}px
+                </Typography>
                 <Slider
                     value={size}
                     onChange={handleSizeChange}
                     min={16}
                     max={64}
                     step={2}
-                    valueLabelDisplay="auto"
+                    size="small"
                     aria-label="Preview icon size"
                 />
             </Stack>
 
-            <Stack direction="row" spacing={0.5} alignItems="center" justifyContent={{ xs: "flex-start", md: "flex-end" }}>
-                <Stack direction="row" spacing={0.25}>
-                    {previewColors.map((option) => (
-                        <Tooltip key={option.value} title={option.label}>
-                            <Button
-                                aria-label={`Use ${option.label.toLowerCase()} icons`}
-                                onClick={() => onColorChange(option.value)}
-                                sx={{ minWidth: 34, width: 34, height: 34, p: 0, borderRadius: "50%" }}
-                            >
-                                <Box
-                                    sx={{
-                                        width: 20,
-                                        height: 20,
-                                        borderRadius: "50%",
-                                        bgcolor: option.value,
-                                        border: 1,
-                                        borderColor: color === option.value ? "primary.main" : "divider",
-                                        boxShadow: color === option.value ? 3 : 0,
-                                    }}
-                                />
-                            </Button>
-                        </Tooltip>
-                    ))}
-                </Stack>
+            <Stack direction="row" spacing={0.25} alignItems="center">
+                {previewColors.map((option) => (
+                    <Tooltip key={option.value} title={option.label}>
+                        <Button
+                            aria-label={`Use ${option.label.toLowerCase()} icons`}
+                            onClick={() => onColorChange(option.value)}
+                            sx={{ minWidth: 30, width: 30, height: 30, p: 0, borderRadius: "50%" }}
+                        >
+                            <Box
+                                sx={{
+                                    width: 17,
+                                    height: 17,
+                                    borderRadius: "50%",
+                                    bgcolor: option.value,
+                                    outline: color === option.value ? 2 : 0,
+                                    outlineColor: "primary.main",
+                                    outlineOffset: 2,
+                                }}
+                            />
+                        </Button>
+                    </Tooltip>
+                ))}
             </Stack>
-        </Box>
+        </Stack>
     );
 }

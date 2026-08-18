@@ -32,11 +32,11 @@ jobs:
       - name: Run release checks
         run: npm run check
 
-      - name: Deploy Worker static assets
+      - name: Deploy Cloudflare Pages site
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy
+          command: pages deploy --branch main
           packageManager: npm
           wranglerVersion: 4.124.0

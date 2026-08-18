@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Box, Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { Heart, HeartTick } from "iconsax-react";
 import type { IconSearchResult } from "../search/searchIcons";
 import type { IconVariant } from "../uiTypes";
@@ -16,7 +15,7 @@ type IconCardProps = {
 };
 
 export function IconCard({ color, isFavorite, result, size, variant, onOpen, onToggleFavorite }: IconCardProps) {
-    const { entry, matchedTerms } = result;
+    const { entry } = result;
 
     return (
         <Box
@@ -34,68 +33,68 @@ export function IconCard({ color, isFavorite, result, size, variant, onOpen, onT
             sx={{
                 position: "relative",
                 minWidth: 0,
-                minHeight: 190,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                p: 2,
+                minHeight: 132,
+                display: "grid",
+                gridTemplateRows: "1fr auto",
+                p: 1.25,
                 overflow: "hidden",
                 border: 1,
                 borderColor: "divider",
-                borderRadius: 3,
+                borderRadius: 2,
                 bgcolor: "background.paper",
                 cursor: "pointer",
-                transition: "transform 160ms ease, border-color 160ms ease, background-color 160ms ease",
+                transition: "border-color 120ms ease, background-color 120ms ease, box-shadow 120ms ease",
                 contentVisibility: "auto",
-                containIntrinsicSize: "190px",
+                containIntrinsicSize: "132px",
                 "&:hover, &:focus-visible": {
                     outline: "none",
-                    transform: "translateY(-3px)",
-                    borderColor: "primary.dark",
-                    bgcolor: "background.paper",
-                    boxShadow: 8,
+                    borderColor: "text.disabled",
+                    boxShadow: 1,
+                },
+                "&:hover .favorite-button, &:focus-within .favorite-button": {
+                    opacity: 1,
                 },
             }}
         >
-            <Stack direction="row" justifyContent="space-between" alignItems="flex-start" gap={1}>
-                <Chip
+            <Tooltip title={isFavorite ? "Remove favorite" : "Save favorite"}>
+                <IconButton
+                    className="favorite-button"
                     size="small"
-                    label={entry.category}
-                    sx={{ maxWidth: "calc(100% - 2.5rem)", bgcolor: "action.hover", color: "text.secondary" }}
-                />
-                <Tooltip title={isFavorite ? "Remove favorite" : "Save favorite"}>
-                    <IconButton
-                        size="small"
-                        aria-label={isFavorite ? `Remove ${entry.name} from favorites` : `Add ${entry.name} to favorites`}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            onToggleFavorite(entry.name);
-                        }}
-                        color={isFavorite ? "primary" : "default"}
-                    >
-                        {isFavorite ? <HeartTick size={19} /> : <Heart size={19} />}
-                    </IconButton>
-                </Tooltip>
-            </Stack>
+                    aria-label={isFavorite ? `Remove ${entry.name} from favorites` : `Add ${entry.name} to favorites`}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        onToggleFavorite(entry.name);
+                    }}
+                    color={isFavorite ? "primary" : "default"}
+                    sx={{
+                        position: "absolute",
+                        top: 4,
+                        right: 4,
+                        width: 28,
+                        height: 28,
+                        opacity: isFavorite ? 1 : 0,
+                        transition: "opacity 120ms ease",
+                        bgcolor: "background.paper",
+                    }}
+                >
+                    {isFavorite ? <HeartTick size={16} /> : <Heart size={16} />}
+                </IconButton>
+            </Tooltip>
 
-            <Box sx={{ display: "grid", placeItems: "center", minHeight: 78 }}>
+            <Box sx={{ display: "grid", placeItems: "center", minHeight: 82 }}>
                 <IconsaxGlyph name={entry.name} size={size} variant={variant} color={color} aria-hidden="true" />
             </Box>
 
-            <Stack spacing={0.5} minWidth={0}>
-                <Typography fontWeight={700} noWrap title={entry.name}>
-                    {entry.name}
-                </Typography>
-                {matchedTerms.length > 0 ? (
-                    <Typography variant="caption" color="text.secondary" noWrap title={matchedTerms.join(", ")}>
-                        Matched {matchedTerms.slice(0, 3).join(" · ")}
-                    </Typography>
-                ) : (
-                    <Typography variant="caption" color="text.secondary" noWrap>
-                        {entry.aliases.slice(0, 3).join(" · ") || "Iconsax React"}
-                    </Typography>
-                )}
-            </Stack>
+            <Typography
+                variant="caption"
+                fontWeight={600}
+                textAlign="center"
+                noWrap
+                title={entry.name}
+                sx={{ width: "100%", color: "text.secondary" }}
+            >
+                {entry.name}
+            </Typography>
         </Box>
     );
 }

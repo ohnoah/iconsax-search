@@ -21,7 +21,7 @@ body:
     attributes:
       label: URL or search
       description: Share the URL or exact query that reproduces the problem.
-      placeholder: https://example.workers.dev/?q=settings
+      placeholder: https://iconsax-search.pages.dev/?q=settings
   - type: textarea
     id: expected
     attributes:

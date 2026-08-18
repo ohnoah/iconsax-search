@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "A fast, version-aware explorer for Iconsax React icons.",
-  "homepage": "https://iconsax-search.xqf5cypcyy.workers.dev",
+  "homepage": "https://iconsax-search.pages.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ohnoah/iconsax-search.git"
@@ -24,8 +24,7 @@
     "typecheck": "tsc -b",
     "test": "vitest run",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build",
-    "deploy": "npm run build && wrangler deploy",
-    "deploy:dry-run": "npm run build && wrangler deploy --dry-run"
+    "deploy": "npm run build && wrangler pages deploy --branch main"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

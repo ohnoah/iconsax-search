@@ -8,7 +8,7 @@ An unofficial, fast explorer for the exact version of
 [`iconsax-react`](https://www.npmjs.com/package/iconsax-react) installed in this
 repository.
 
-**[Open the live explorer](https://iconsax-search.xqf5cypcyy.workers.dev)**
+**[Open the live explorer](https://iconsax-search.pages.dev)**
 
 Search happens entirely in the browser. There is no model download, vector
 database, backend, tracking request, or per-query cost.
@@ -27,7 +27,7 @@ database, backend, tracking request, or per-query cost.
 - Copies component names and ready-to-paste React code.
 - Keeps searches and selected icons shareable in the URL.
 - Supports keyboard-first navigation and responsive layouts.
-- Deploys as static assets on Cloudflare Workers with no runtime service.
+- Deploys as static assets on Cloudflare Pages with no runtime service.
 
 ## Quick start
 
@@ -53,7 +53,6 @@ Vite prints the local URL. Search for a concept such as `delete`, `settings`,
 | `npm run typecheck` | Type-check the application. |
 | `npm run build` | Validate the catalog and create the production build in `dist`. |
 | `npm run check` | Run every CI check. |
-| `npm run deploy:dry-run` | Build and validate the Cloudflare upload without publishing. |
 | `npm run deploy` | Build and deploy with Wrangler. |
 
 ## Staying in sync with Iconsax
@@ -85,7 +84,7 @@ source of truth.
 
 ## Deploying to Cloudflare
 
-The repository includes the Cloudflare Worker Static Assets configuration and
+The repository includes the Cloudflare Pages configuration and
 GitHub Actions deployment workflow as infrastructure as code.
 
 For a local deployment:
@@ -98,7 +97,7 @@ npm run deploy
 For a manually triggered GitHub Actions deployment, configure these repository secrets:
 
 - `CLOUDFLARE_ACCOUNT_ID`
-- `CLOUDFLARE_API_TOKEN`, scoped to deploy Workers in that account
+- `CLOUDFLARE_API_TOKEN`, scoped to deploy Pages in that account
 
 See [the deployment runbook](docs/deployment.md) for verification, rollback,
 and custom-domain guidance. Do not commit Cloudflare credentials.
